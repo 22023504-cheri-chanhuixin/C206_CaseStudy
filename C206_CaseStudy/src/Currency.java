@@ -1,12 +1,11 @@
 public class Currency {
     private String currency;
     private String name;
-    //private double exchangeRate;
 
-    public Currency(String currency, String name) { //double exchangeRate) {
+    public Currency(String currency, String name) {
         this.currency = currency;
         this.name = name;
-        //this.exchangeRate = exchangeRate;
+
     }
 
     public String getCurrency() {
@@ -17,17 +16,9 @@ public class Currency {
         return name;
     }
 
-    //public double getExchangeRate() {
-       // return exchangeRate;
-    //}
-
-    //public void setExchangeRate(double exchangeRate) {
-       // this.exchangeRate = exchangeRate;
-    //}
-
     @Override
     public String toString() {
-        return "Currency: " + currency + " (" + name + ")"; // Exchange Rate: " //+ exchangeRate
+        return "Currency: " + currency + " (" + name + ")";
     }
 
     // Sample main method to create and display three currencies
