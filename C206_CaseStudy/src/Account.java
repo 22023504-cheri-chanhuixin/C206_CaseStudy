@@ -8,7 +8,7 @@ public class Account {
 	public Account (String account_id, double account_balance, String account_password) {
 		this.account_id = account_id;
 		this.account_balance = account_balance;
-		this.transaction_history = transaction_history;
+		this.transaction_history = "";
 		this.account_password = account_password;
 	}
 
@@ -20,8 +20,12 @@ public class Account {
 		return account_balance;
 	}
 
-	public String getTranscation_history() {
+	public String getTransaction_history() {
 		return transaction_history;
+	}
+	
+	public void setTransaction_history(String transaction_history) {
+		this.transaction_history = transaction_history;
 	}
 
 	public String getAccount_password() {
