@@ -1,22 +1,30 @@
+import java.util.Date;
 
 public class Transaction extends User {
-	private String tDate;
+	private int transactionNo;
+	private Date tDate;
 	private int amount;
 	private String desiredCurrency;
-	public Transaction(String username, String userID, String password, String contact, String role,String tDate, int amount, String desiredCurrency) {
+	public Transaction(String username, String userID, String password, String contact, String role,int transactionNo,Date tDate, int amount, String desiredCurrency) {
 		super(username,userID,password,contact,role);
+		this.transactionNo=transactionNo;
 		this.tDate=tDate;
 		this.amount=amount;
 		this.desiredCurrency=desiredCurrency;
+	
 	}
-	public String tDate() {
+	public int getTransactionNo() {
+		return transactionNo;
+	}
+	public Date getTDate() {
 		return tDate;
 	}
-	public int amount() {
+	public int getAmount() {
 		return amount;
 	}
-	public String desiredCurrency() {
+	public String getDesiredCurrency() {
 		return desiredCurrency;
 	}
+	
 
 }
