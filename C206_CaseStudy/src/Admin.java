@@ -8,18 +8,16 @@
  */
 public class Admin {
 		private String username;
-		private String userID;
+		private int userID;
 		private String password;
 		private String contact;
-		private String role;
 		
-		public Admin(String username, String userID, String password, String contact, String role) {
+		public Admin(String username, int userID, String password, String contact) {
 			super();
 			this.username = username;
 			this.userID = userID;
 			this.password = password;
 			this.contact = contact;
-			this.role = role;
 		}
 
 		public String getUsername() {
@@ -46,15 +44,7 @@ public class Admin {
 			this.contact = contact;
 		}
 
-		public String getRole() {
-			return role;
-		}
-
-		public void setRole(String role) {
-			this.role = role;
-		}
-
-		public String getUserID() {
+		public int getUserID() {
 			return userID;
 		}
 		
