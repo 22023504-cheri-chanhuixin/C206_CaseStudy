@@ -4,20 +4,19 @@ public class Account {
 	private String account_password;
 	private double account_balance;
 	private String transaction_history;
-	private boolean isAccountFound;
+	private String date;
 	
 	public Account(String acc_id, String acc_password) {
 		account_id = acc_id;
 		account_password = acc_password;
-		this.isAccountFound = true;
 	}
 	
-	public Account (String account_id, String account_password, double account_balance) {
+	public Account (String account_id, String account_password, double account_balance, String transaction_history, String date) {
 		this.account_id = account_id;
 		this.account_password = account_password;
 		this.account_balance = account_balance;
-		this.transaction_history = "";
-		this.isAccountFound = true;
+		this.transaction_history = transaction_history;
+		this.date = date;
 	}
 
 	public String getAccount_id() {
@@ -39,18 +38,10 @@ public class Account {
 	public String getTransaction_history() {
 		return transaction_history;
 	}
+
+	public String getDate() {
+		return date;
+	}
 	
-	public void setTransaction_history(String transaction_history) {
-		this.transaction_history = transaction_history;
-	}
-
-	public boolean isAccountFound() {
-		return isAccountFound;
-	}
-
-	public void setAccountFound(boolean isAccountFound) {
-		this.isAccountFound = isAccountFound;
-	}
-
 }
 
