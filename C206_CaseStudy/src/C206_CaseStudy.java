@@ -568,7 +568,7 @@ public class C206_CaseStudy {
 		C206_CaseStudy.setHeader("ACCOUNT LIST");
 		String output = String.format("%-25s %-25s %-25s %-25s %-25s\n", "ACCOUNT ID", "BALANCE", "ACCOUNT PASSWORD", "TRANSACTION HISTORY", "TRANSACTION DATE");
 		 output += retrieveAllAccount(accountList);	
-		System.out.println(output);
+		System.out.println(output);  
 	}
 	//================================= Option 12 Delete account (CRUD - Delete) =================================
 	public static boolean doDeleteAccount(ArrayList<Account> accountList, String acc_id, String acc_password) {
