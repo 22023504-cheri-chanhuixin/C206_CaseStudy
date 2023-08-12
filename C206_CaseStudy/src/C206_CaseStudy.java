@@ -403,7 +403,7 @@ public class C206_CaseStudy {
 	
     public static void viewAllCurrency(ArrayList<Currency> currencyList) {
     	C206_CaseStudy.setHeader("CURRENCY LIST");
-    	String output = String.format("%-10s %-30s %-10s\n", "CODE", "NAME", "EXCHANGE RATE");
+    	String output = String.format("%-10s %-30s\n", "CODE", "NAME", "EXCHANGE RATE");
         for (Currency currency : currencyList) {
             output += String.format("%-10s %-30s\n", currency.getCode(), currency.getName());
         }

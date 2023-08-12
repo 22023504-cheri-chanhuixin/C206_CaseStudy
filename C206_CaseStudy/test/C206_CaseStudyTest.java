@@ -91,7 +91,7 @@ public class C206_CaseStudyTest {
         // Test if Item list is not null but empty - boundary
         assertNotNull("Test if there is valid Currency arraylist to retrieve item", currencyList);
 
-        // Test if the list of currency retrieved from the CurrencyMain is empty - boundary
+        // Test if the list of currency retrieved from the SourceCentre is empty - boundary
         String allCurrency = C206_CaseStudy.retrieveAllCurrency(currencyList);
         String testOutput = "";
         assertEquals("Check that ViewAllCurrencylist", testOutput, allCurrency);
@@ -102,13 +102,14 @@ public class C206_CaseStudyTest {
         C206_CaseStudy.addCurrency(currencyList, c3);
         assertEquals("Test that Currency arraylist size is 3", 3, currencyList.size());
 
-        // Test if the expected output string same as the list of currencies retrieved from the CurrencyMain
+        // Test if the expected output string same as the list of currencies retrieved from the SourceCentre
         allCurrency = C206_CaseStudy.retrieveAllCurrency(currencyList);
-        testOutput = String.format("%-10s %-30s %-10s\n", "USD", "United States Dollar");
-        testOutput += String.format("%-10s %-30s %-10s\n", "EUR", "Euro");
-        testOutput += String.format("%-10s %-30s %-10s\n", "MYR", "Malaysian Ringgit");
+        testOutput = String.format("%-10s %-30s\n", "USD", "United States Dollar");
+        testOutput = String.format("%-10s %-30s\n", "EUR", "Euro");
+        testOutput = String.format("%-10s %-30s\n", "MYR", "Malaysian Ringgit");
 
         assertEquals("Test that ViewAllCurrencylist", testOutput, allCurrency);
+
     }
 
     @Test
