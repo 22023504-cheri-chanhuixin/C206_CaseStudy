@@ -104,9 +104,9 @@ public class C206_CaseStudyTest {
 
         // Test if the expected output string same as the list of currencies retrieved from the CurrencyMain
         allCurrency = C206_CaseStudy.retrieveAllCurrency(currencyList);
-        testOutput = String.format("%-10s %-30s\n", "USD", "United States Dollar");
-        testOutput += String.format("%-10s %-30s\n", "EUR", "Euro");
-        testOutput += String.format("%-10s %-30s\n", "MYR", "Malaysian Ringgit");
+        testOutput = String.format("%-10s %-30s %-10s\n", "USD", "United States Dollar");
+        testOutput += String.format("%-10s %-30s %-10s\n", "EUR", "Euro");
+        testOutput += String.format("%-10s %-30s %-10s\n", "MYR", "Malaysian Ringgit");
 
         assertEquals("Test that ViewAllCurrencylist", testOutput, allCurrency);
     }
