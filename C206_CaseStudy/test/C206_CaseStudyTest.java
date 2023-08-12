@@ -15,6 +15,7 @@ public class C206_CaseStudyTest {
 	// prepare test data for currency
 	private Currency c1;
     private Currency c2;
+    private Currency c3;
     private ArrayList<Currency> currencyList;
 	
 	// prepare test data for transaction
@@ -39,6 +40,7 @@ public class C206_CaseStudyTest {
 		// prepare test data for currency
 		c1 = new Currency("USD", "United States Dollar");
         c2 = new Currency("EUR", "Euro");
+        c3 = new Currency("MYR", "Malaysian Ringgit");
 
         currencyList = new ArrayList<>();
 		
@@ -79,8 +81,8 @@ public class C206_CaseStudyTest {
         assertSame("Check that Currency is added", c2, currencyList.get(1));
         
         // Add an account that already exists in the list - error
-        C206_CaseStudy.addCurrency(currencyList, c1);
-     	assertEquals("Test that the Currency arraylist size is the same.", 1, currencyList.size());
+        C206_CaseStudy.addCurrency(currencyList, c3);
+     	assertEquals("Test that the Currency arraylist size is the same.", 3, currencyList.size());
 
     }
 	@Test
@@ -94,15 +96,17 @@ public class C206_CaseStudyTest {
         String testOutput = "";
         assertEquals("Check that ViewAllCurrencylist", testOutput, allCurrency);
 
-        // Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
+        // Given an empty list, after adding 3 items, test if the size of the list is 3 - normal
         C206_CaseStudy.addCurrency(currencyList, c1);
         C206_CaseStudy.addCurrency(currencyList, c2);
-        assertEquals("Test that Currency arraylist size is 2", 2, currencyList.size());
+        C206_CaseStudy.addCurrency(currencyList, c3);
+        assertEquals("Test that Currency arraylist size is 3", 3, currencyList.size());
 
         // Test if the expected output string same as the list of currencies retrieved from the CurrencyMain
         allCurrency = C206_CaseStudy.retrieveAllCurrency(currencyList);
         testOutput = String.format("%-10s %-30s\n", "USD", "United States Dollar");
         testOutput += String.format("%-10s %-30s\n", "EUR", "Euro");
+        testOutput += String.format("%-10s %-30s\n", "MYR", "Malaysian Ringgit");
 
         assertEquals("Test that ViewAllCurrencylist", testOutput, allCurrency);
     }
@@ -114,7 +118,7 @@ public class C206_CaseStudyTest {
         C206_CaseStudy.addCurrency(currencyList, c1);
 
         // Error
-        boolean isDeleted = C206_CaseStudy.doDeleteCurrency(currencyList, "USD");
+        boolean isDeleted = C206_CaseStudy.doDeleteCurrency(currencyList, "MYR");
         assertFalse("Check that available currency USD is deleted - false?", isDeleted);
         // Normal
         C206_CaseStudy.addCurrency(currencyList, c2);
