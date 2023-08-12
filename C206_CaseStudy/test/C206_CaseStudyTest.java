@@ -13,6 +13,9 @@ public class C206_CaseStudyTest {
 	// prepare test data for user
 	
 	// prepare test data for currency
+	private Currency c1;
+    private Currency c2;
+    private ArrayList<Currency> currencyList;
 	
 	// prepare test data for transaction
 	private Transaction t1;
@@ -34,6 +37,10 @@ public class C206_CaseStudyTest {
 		// prepare test data for user
 		
 		// prepare test data for currency
+		c1 = new Currency("USD", "United States Dollar");
+        c2 = new Currency("EUR", "Euro");
+
+        currencyList = new ArrayList<>();
 		
 		// prepare test data for transaction
 		 String sDate1="31/12/1998";  
@@ -54,6 +61,69 @@ public class C206_CaseStudyTest {
 	// user
 	
 	// currency
+	@Test
+    public void testAddCurrency() {
+        // Currency list is not null, so that can add a new currency - boundary
+        assertNotNull("Check if there is valid Currency arraylist to add to", currencyList);
+        
+        // Given an empty list, after adding 1 item, the size of the list is 1 - normal
+        // The item just added is as same as the first item of the list
+        C206_CaseStudy.addCurrency(currencyList, c1);
+        assertEquals("Check that Currency arraylist size is 1", 1, currencyList.size());
+        assertSame("Check that Currency is added", c1, currencyList.get(0));
+
+        // Add another item. Test the size of the list is 2? - normal
+        // The item just added is as same as the second item of the list
+        C206_CaseStudy.addCurrency(currencyList, c2);
+        assertEquals("Check that Currency arraylist size is 2", 2, currencyList.size());
+        assertSame("Check that Currency is added", c2, currencyList.get(1));
+        
+        // Add an account that already exists in the list - error
+        C206_CaseStudy.addCurrency(currencyList, c1);
+     	assertEquals("Test that the Currency arraylist size is the same.", 1, currencyList.size());
+
+    }
+	@Test
+    public void testRetrieveAllCurrency() {
+    	
+        // Test if Item list is not null but empty - boundary
+        assertNotNull("Test if there is valid Currency arraylist to retrieve item", currencyList);
+
+        // Test if the list of currency retrieved from the CurrencyMain is empty - boundary
+        String allCurrency = C206_CaseStudy.retrieveAllCurrency(currencyList);
+        String testOutput = "";
+        assertEquals("Check that ViewAllCurrencylist", testOutput, allCurrency);
+
+        // Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
+        C206_CaseStudy.addCurrency(currencyList, c1);
+        C206_CaseStudy.addCurrency(currencyList, c2);
+        assertEquals("Test that Currency arraylist size is 2", 2, currencyList.size());
+
+        // Test if the expected output string same as the list of currencies retrieved from the CurrencyMain
+        allCurrency = C206_CaseStudy.retrieveAllCurrency(currencyList);
+        testOutput = String.format("%-10s %-30s\n", "USD", "United States Dollar");
+        testOutput += String.format("%-10s %-30s\n", "EUR", "Euro");
+
+        assertEquals("Test that ViewAllCurrencylist", testOutput, allCurrency);
+    }
+
+    @Test
+    public void testDoDeleteCurrency() {
+        // Boundary
+        assertNotNull("Check if there is valid currency arraylist to add to", currencyList);
+        C206_CaseStudy.addCurrency(currencyList, c1);
+
+        // Error
+        boolean isDeleted = C206_CaseStudy.doDeleteCurrency(currencyList, "USD");
+        assertFalse("Check that available currency USD is deleted - false?", isDeleted);
+        // Normal
+        C206_CaseStudy.addCurrency(currencyList, c2);
+        isDeleted = C206_CaseStudy.doDeleteCurrency(currencyList, "EUR");
+        assertTrue("Check that deleted currency EUR is deleted - true", isDeleted);
+        // Error
+        isDeleted = C206_CaseStudy.doDeleteCurrency(currencyList, "JPY");
+        assertFalse("Check that non-existing currency JPY is deleted - false?", isDeleted);
+    }
 	
 	// transaction
 	
@@ -159,6 +229,9 @@ public class C206_CaseStudyTest {
 		// user
 		
 		// currency
+		c1 = null;
+        c2 = null;
+        currencyList = null;
 		
 		// transaction
 		 t1=null;

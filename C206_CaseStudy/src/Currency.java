@@ -5,9 +5,10 @@ public class Currency {
     public Currency(String code, String name) {
         this.code = code;
         this.name = name;
-    }
 
-    // Getters and Setters
+	}
+
+	// Getters and Setters
     public String getCode() {
         return code;
     }
@@ -23,4 +24,12 @@ public class Currency {
     public void setName(String name) {
         this.name = name;
     }
+
+	public Object getCurrency_name() {
+		return null;
+	}
+
+	public Object getCurrency_code() {
+		return null;
+	}
 }

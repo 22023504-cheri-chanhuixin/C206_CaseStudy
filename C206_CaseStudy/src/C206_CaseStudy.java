@@ -43,7 +43,7 @@ public class C206_CaseStudy {
 
         currencyList.add(new Currency("USD", "United States Dollar"));
         currencyList.add(new Currency("EUR", "Euro"));
-        currencyList.add(new Currency("SGD", "Singapore Dollar"));
+        currencyList.add(new Currency("MYR", "Malaysian Ringgit"));
 		
 		// transaction arraylist
 		ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
@@ -391,9 +391,19 @@ public class C206_CaseStudy {
     }
 	
 	//================================= Option 5 View currency (CRUD - Read) =====================================
-	public static void viewAllCurrency(ArrayList<Currency> currencyList) {
-		C206_CaseStudy.setHeader("CURRENCY LIST");
-        String output = String.format("%-10s %-30s\n", "CODE", "NAME");
+	public static String retrieveAllCurrency(ArrayList<Currency> currencyList) {
+		String output = "";
+
+		for (int i = 0; i < currencyList.size(); i++) {
+			output += String.format("%-10s %-30s\n", currencyList.get(i).getCurrency_name(), currencyList.get(i).getCurrency_code());  
+			
+		}
+		return output;
+	}
+	
+    public static void viewAllCurrency(ArrayList<Currency> currencyList) {
+    	C206_CaseStudy.setHeader("CURRENCY LIST");
+    	String output = String.format("%-10s %-30s %-10s\n", "CODE", "NAME", "EXCHANGE RATE");
         for (Currency currency : currencyList) {
             output += String.format("%-10s %-30s\n", currency.getCode(), currency.getName());
         }
@@ -401,23 +411,31 @@ public class C206_CaseStudy {
     }
 	
 	//================================= Option 6 Delete currency (CRUD - Delete) =================================
-	 public static void deleteCurrency(ArrayList<Currency> currencyList) {
-	        String code = Helper.readString("Enter currency code to delete > ");
-	        Currency currencyToRemove = null;
-	        for (Currency currency : currencyList) {
-	            if (currency.getCode().equalsIgnoreCase(code)) {
-	                currencyToRemove = currency;
-	                break;
-	            }
-	        }
-	        if (currencyToRemove != null) {
-	            currencyList.remove(currencyToRemove);
-	            System.out.println("Currency with code " + code + " deleted");
-	        } else {
-	            System.out.println("Currency with code " + code + " not found.");
+	public static boolean doDeleteCurrency(ArrayList<Currency> currencyList, String currencyCode) {
+	    if (currencyCode.isEmpty())
+	        return false;
+
+	    for (int i = 0; i < currencyList.size(); i++) {
+	        String code = currencyList.get(i).getCode();
+	        if (code.equalsIgnoreCase(currencyCode)) {
+	            currencyList.remove(i);
+	            return true;
 	        }
 	    }
-	
+	    return false;
+	}
+
+	public static void deleteCurrency(ArrayList<Currency> currencyList) {
+	    String currencyCode = Helper.readString("Enter currency code to delete > ");
+	    boolean isDeleted = doDeleteCurrency(currencyList, currencyCode);
+
+	    if (isDeleted) {
+	        System.out.println("Currency with code " + currencyCode + " deleted");
+	    } else {
+	        System.out.println("Currency with code " + currencyCode + " not found.");
+	    }
+	}
+
 	//================================= Option 7 Add transaction (CRUD - Create) =================================
 	 public static Transaction inputTransactions() {
 		    
