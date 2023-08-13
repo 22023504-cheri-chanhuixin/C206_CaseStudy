@@ -11,6 +11,11 @@ import java.util.Date;
 
 public class C206_CaseStudyTest {
 	// prepare test data for user
+	private User u1;
+	private User u2;
+	private User u3;
+	  
+	ArrayList<User> userList = new ArrayList<User>();
 	
 	// prepare test data for currency
 	private Currency c1;
@@ -28,6 +33,11 @@ public class C206_CaseStudyTest {
 	private ArrayList<Account> accountList;
 	
 	// prepare test data for rate
+	private ExchangeRate er1;
+    private ExchangeRate er2;
+    private ExchangeRate er3;
+    private ExchangeRate er4;
+    private ArrayList<ExchangeRate> exchangeRateList;
 	
 	public C206_CaseStudyTest() {
 		super();
@@ -36,6 +46,11 @@ public class C206_CaseStudyTest {
 	@Before
 	public void setUp() throws Exception {
 		// prepare test data for user
+		u1 = new User("Danny", 1, "password001", "dan6@gmail.com", "Customer");
+	    u2 = new User("Jon", 2, "", "jon567@gmail.com", "Customer");
+	    u3 = new User("Eve", 3, "password003", "eve435gmail.com", "Customer");
+	    
+	    userList= new ArrayList<User>();
 		
 		// prepare test data for currency
 		c1 = new Currency("USD", "United States Dollar");
@@ -49,7 +64,7 @@ public class C206_CaseStudyTest {
 	      Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);  
 	      
 	    
-	    t1 = new Transaction("Timmy", 10, "pass","99998888",1, date1,200,"SGD");
+	    t1 = new Transaction("Timmy", 10, "pass","banana@gmail.com","customer",1, date1,200,"SGD");
 	    transactionList= new ArrayList<Transaction>();
 		
 		// prepare test data for account
@@ -58,9 +73,76 @@ public class C206_CaseStudyTest {
 		accountList = new ArrayList<Account>();
 		
 		// prepare test data for rate
+		 er1 = new ExchangeRate("USD", "United States Dollar", 0.74);
+	     er2 = new ExchangeRate("EUR", "Euro", 0.68);
+	     er3 = new ExchangeRate("MYR", "Malaysian Ringgit", 3.39);
+	     er4 = new ExchangeRate("JPY", "Japanese Yen", 106.81);
+	        
+	     exchangeRateList = new ArrayList<ExchangeRate>(); // Initialize the exchangeRateList ArrayList
 	}
 	
 	// user
+	
+	  @Test
+	  public void testAddUser() {
+	    //Check that there is a valid arrayList to add users
+	    assertNotNull("Test that there is a valid User arrayList to add to", userList);
+	    
+	    //Test that 1 user has been added
+	    C206_CaseStudy.addUser(userList, u1);
+	    assertEquals("Test that arrayList size increased to 1", 1, userList.size());
+	    assertSame("Check that User is successfully added into the system", u1,  userList.get(0));
+	    
+	    //Check that all information are filled
+	    C206_CaseStudy.addUser(userList, u2);
+	    boolean result = C206_CaseStudy.addUser(userList, u2);
+	    assertFalse("Test that user with empty values are not added into the arrayList", result);
+	    
+	    //Check that the correct variables are entered
+	    C206_CaseStudy.addUser(userList, u3);
+	    assertNotEquals("Test that correct values are entered", 1, userList.size());
+	  }
+	    
+	  
+	  @Test
+	  public void testViewAllUser() {
+	    //Check that there is a valid arrayList to view users
+	    assertNotNull("Test if there is valid User arraylist to retrieve item", userList);
+	    
+	    //Check that the user has been added and is displayed successfully
+	    C206_CaseStudy.addUser(userList, u1);
+	    assertEquals("Test that the User arraylist contain users.", 1, userList.size());
+	    
+	    //Check that user has been removed successfully
+	    C206_CaseStudy.doDeleteUser(userList, u1.getUsername(),u1.getPassword());
+	    assertEquals("Test that user has been removed", 0, userList.size());
+	    
+	    //test that the arayList is empty
+	    String testOutput = "";
+	    String viewAllUser= C206_CaseStudy.ViewAllUser(userList);
+	    assertEquals("Check that ViewAllUserlist", testOutput, viewAllUser);
+	    
+	  }
+	  
+	  
+	  @Test
+	  public void testDoDeleteUser() {
+	    //Test that there is a valid arrayLIst to delete users
+	    assertNotNull("Test if there is valid User arraylist to add to", userList);
+	    
+	    //Test that user is successfully removed from the system
+	    C206_CaseStudy.doDeleteUser(userList, u3.getUsername(), u3.getPassword());
+	    assertEquals("Test thet userList removes user successfully", 0, userList.size());
+	          
+	    //Test that delete would be unsuccessful with incorrect values
+	      C206_CaseStudy.addUser(userList, u1);
+	      assertFalse(C206_CaseStudy.doDeleteUser(userList, "Dan", "password03"));
+	      assertEquals("Test that the size of the arrayList remains the same", 1, userList.size());
+
+	      //Check that if user does not exist in the system, they cannot be deleted 
+	      assertFalse(C206_CaseStudy.doDeleteUser(userList, u2.getUsername(), u2.getPassword()));
+	      assertEquals("Test that the size of the arrayList remains the same", 1, userList.size());
+	  }
 	
 	// currency
 	@Test
@@ -141,18 +223,18 @@ public class C206_CaseStudyTest {
 	  }
 	
 	@Test
-	  public void testRetrieveAllTransactions() {
-	    assertNotNull("Check if there is valid Transaction arraylist to add to", transactionList);
-	    String allTransaction= C206_CaseStudy.retrieveAllTransactions(transactionList);
-	    String testOutput = "";
-	    assertEquals("Check that ViewAllTransaction", testOutput, allTransaction);
-	    C206_CaseStudy.addTransaction(transactionList, t1);
-	    assertEquals("Test that Transaction arraylist size is 1", 1, transactionList.size());
-	    allTransaction= C206_CaseStudy.retrieveAllTransactions(transactionList);
-	    String sDate1="31/12/1998";  
-	    testOutput = String.format("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s\n","Timmy", 10, "pass","99998888",1, sDate1,200,"SGD");
-	    assertEquals("Test that ViewAllTransaction", testOutput, allTransaction);
-	  }
+    public void testRetrieveAllTransactions() {
+      assertNotNull("Check if there is valid Transaction arraylist to add to", transactionList);
+      String allTransaction= C206_CaseStudy.retrieveAllTransactions(transactionList);
+      String testOutput = "";
+      assertEquals("Check that ViewAllTransaction", testOutput, allTransaction);
+      C206_CaseStudy.addTransaction(transactionList, t1);
+      assertEquals("Test that Transaction arraylist size is 1", 1, transactionList.size());
+      allTransaction= C206_CaseStudy.retrieveAllTransactions(transactionList);
+      String sDate1="31/12/1998";  
+      testOutput = String.format("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s\n","Timmy", 10, "pass","banana@gmail.com","customer",1, sDate1,200,"SGD");
+      assertEquals("Test that ViewAllTransaction", testOutput, allTransaction);
+    }
 	
 	@Test
 	  public void testDeleteTransaction() {
@@ -228,10 +310,30 @@ public class C206_CaseStudyTest {
 	}
 	
 	// rate
+	@Test
+    public void testAddExchangeRate() {
+        // Item list is not null, so that can add a new exchange rate - boundary
+        assertNotNull("Check if there is valid ExchangeRate arraylist to add to", exchangeRateList);
+        // Given an empty list, after adding 1 item, the size of the list is 1 - normal
+        // The item just added is as same as the first item of the list
+        C206_CaseStudy.addExchangeRate(exchangeRateList, er1);
+        assertEquals("Check that ExchangeRate arraylist size is 1", 1, exchangeRateList.size());
+        assertSame("Check that ExchangeRate is added", er1, exchangeRateList.get(0));
 
+        // Add another item. Test the size of the list is 2? - normal
+        // The item just added is as same as the second item of the list
+        C206_CaseStudy.addExchangeRate(exchangeRateList, er2);
+        assertEquals("Check that ExchangeRate arraylist size is 2", 2, exchangeRateList.size());
+        assertSame("Check that ExchangeRate is added", er2, exchangeRateList.get(1));
+    }
+    
 	@After
 	public void tearDown() throws Exception {
 		// user
+		u1 = null;
+	    u2 = null;
+	    u3 = null;
+	    userList = null;
 		
 		// currency
 		c1 = null;
@@ -239,15 +341,19 @@ public class C206_CaseStudyTest {
         currencyList = null;
 		
 		// transaction
-		 t1=null;
+		 t1 = null;
 		 transactionList = null;
 		
 		// account
 		a1 = null;
-		
 		accountList = null;
 		
 		// rate
+		er1 = null;
+        er2 = null;
+        er3 = null;
+        er4 = null;
+        exchangeRateList = null;
 	}
 	
 	@Test

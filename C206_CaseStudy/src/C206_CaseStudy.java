@@ -7,9 +7,6 @@ import java.time.format.DateTimeFormatter;
 
 public class C206_CaseStudy {
 	
-	private static final int USER_TYPE_USER = 1;
-	private static final int USER_TYPE_ADMIN = 2;
-	private static final int ITEM_TYPE_EXCHANGE_RATE = 1;
 	private static final int OPTION_ADDUSER = 1;
 	private static final int OPTION_VIEWUSER = 2;
 	private static final int OPTION_DELETEUSER = 3;
@@ -30,14 +27,12 @@ public class C206_CaseStudy {
 	public static void main(String[] args) {
 		
 		// user arraylist
-		ArrayList<Admin> adminList = new ArrayList<Admin>();
-	    ArrayList<User> userList = new ArrayList<User>();
+		ArrayList<User> userList = new ArrayList<User>();
 
-	    adminList.add(new Admin("Amy", 01, "password01", "amy123@gmail.com"));
-	    adminList.add(new Admin("Bob", 02, "password02", "bob45@yahoo.com"));
-	    userList.add(new User("Danny", 001, "password001", "dan6@gmail.com"));
-	    userList.add(new User("Jon", 002, "password002", "jon567@gmail.com"));
-		
+	    userList.add(new User("Danny", 001, "password001", "dan6@gmail.com", "Customer"));
+	    userList.add(new User("Jon", 002, "password002", "jon567@gmail.com", "Customer"));
+	    userList.add(new User("Eve", 003, "password003", "eve435@gmail.com", "Customer"));
+	   
 		// currency arraylist
 		ArrayList<Currency> currencyList = new ArrayList<Currency>();
 
@@ -73,45 +68,18 @@ public class C206_CaseStudy {
 			
 			if (option == OPTION_ADDUSER) {
 				// Add a new user
-				C206_CaseStudy.setHeader("ADD USER TYPE");
-		        System.out.println("1. User");
-		        System.out.println("2. Admin");
-
-		        int userType = Helper.readInt("Enter option to select user type > ");
-
-		        if (userType == USER_TYPE_USER) {
-		          User user = addUser(userList);
-		          C206_CaseStudy.addUser(userList, user);
-		          System.out.println("User added!");
-
-		        } else if (userType == USER_TYPE_ADMIN) {
-		          Admin admin = addAdmin(adminList);
-		          C206_CaseStudy.addAdmin(adminList, admin);
-		          System.out.println("Admin added!");
-
-		        } else {
-		          System.out.println("Invalid type");
-		        }
+				 C206_CaseStudy.setHeader("ADD USER");
+			     User user = inputUser(userList);
+			     C206_CaseStudy.addUser(userList, user);
 				
 			} else if (option == OPTION_VIEWUSER) {
 				// View all users
 				C206_CaseStudy.viewAllUser(userList);
-		        C206_CaseStudy.viewAllAdmin(adminList);
-			
+				
 			} else if (option == OPTION_DELETEUSER) {
 				// delete a existing user
-				C206_CaseStudy.setHeader("DELETE USER TYPES");
-		        System.out.println("1. User");
-		        System.out.println("2. Admin");
-		        
-		        int itemType = Helper.readInt("Enter option to select item type > ");
-		        if (itemType == USER_TYPE_USER) {
-		          C206_CaseStudy.returnUser(userList);
-		        } else if (itemType == USER_TYPE_ADMIN) {
-		          C206_CaseStudy.returnAdmin(adminList);
-		        } else {
-		          System.out.println("Invalid type");
-		        }
+				C206_CaseStudy.setHeader("DELETE USER");
+				C206_CaseStudy.returnUser(userList);
 				
 			} else if (option == OPTION_ADDCURRENCY) {
 				// Add a new currency
@@ -225,154 +193,101 @@ public class C206_CaseStudy {
 	  }
 	
 	//================================= Option 1 Add user (CRUD - Create) ========================================
-	public static User addUser(ArrayList<User> userList) {
-	    String username = Helper.readString("Enter username > ");
-	    String password = Helper.readString("Enter password > ");
-	    String contact = Helper.readString("Enter email > ");
-	    int userID = userList.size();
+	 public static User inputUser(ArrayList<User> userList) {
+		    String username = Helper.readString("Enter username > ");
+		    String password = Helper.readString("Enter password > ");
+		    String email = Helper.readString("Enter email > ");
+		    String role = Helper.readString("Enter role > ");
+		    int userID = userList.size() + 1;
 
-	    User user = new User(username, userID, password, contact);
-	    return user;
+		    User user = new User(username, userID, password, email, role);
+		    return user;
 
-	  }
-	public static void addUser(ArrayList<User> userList, User user) {
-	    User item;
-	    for (int i = 0; i < userList.size(); i++) {
-	      item = userList.get(i);
-	      if (item.getPassword().equalsIgnoreCase(user.getPassword()))
-	        return;
-	    }
-	    if ((user.getUsername().isEmpty()) || (user.getContact().isEmpty())) {
-	      return;
-	    }
-	    userList.add(user);
+		  }
 
-	  }
-
-	  public static Admin addAdmin(ArrayList<Admin> adminList) {
-	    String username = Helper.readString("Enter username > ");
-	    String password = Helper.readString("Enter password > ");
-	    String contact = Helper.readString("Enter email > ");
-	    int userID = adminList.size();
-
-	    Admin admin = new Admin(username, userID, password, contact);
-	    return admin;
-
-	  }
-
-	  public static void addAdmin(ArrayList<Admin> adminList, Admin admin) {
-	    Admin item;
-	    for (int i = 0; i < adminList.size(); i++) {
-	      item = adminList.get(i);
-	      if (item.getUsername().equalsIgnoreCase(admin.getUsername()))
-	        return;
-	    }
-	    if ((admin.getUsername().isEmpty()) || (admin.getContact().isEmpty())) {
-	      return;
-	    }
-
-	    adminList.add(admin);
-
-	  }
+		  public static boolean addUser(ArrayList<User> userList, User item) {
+		      boolean isAdded = false;
+		      boolean notEmpty = true;
+		      boolean validEmail = true;
+		      boolean duplicateUser = true;
+		      String output = "";
+		      for(User user : userList) {
+		       if (item.getUsername().isEmpty() || item.getEmail().isEmpty()) {
+		        notEmpty = false;
+		       }
+		       if (!item.getEmail().contains("@")) {
+		        validEmail = false;
+		       }
+		       if (item.getUsername().equalsIgnoreCase(user.getUsername())) {
+		        duplicateUser = false;
+		       }
+		      }
+		      if (notEmpty && validEmail && duplicateUser) {
+		       System.out.println("User Added!");
+		       userList.add(item);
+		       isAdded = true;
+		      }
+		      if (notEmpty == false){
+		       output += "Please input requirements!\n";
+		      }
+		      if (validEmail == false) {
+		       output += "Invalid Email!\n";
+		      }
+		      if (duplicateUser == false) {
+		       output += "User exist!";
+		      }
+		      System.out.println(output);
+		      return isAdded;
+		     }
 	
 	//================================= Option 2 View user (CRUD - Read) =========================================
-	  public static String retrieveAllUser(ArrayList<User> userList) {
-		    String output = "";
+		  public static String ViewAllUser(ArrayList<User> userList) {
+			    String output = "";
 
-		    for (int i = 0; i < userList.size(); i++) {
+			    for (int i = 0; i < userList.size(); i++) {
 
-		      output += String.format("%-10s %-10d %-15s %-10s\n", userList.get(i).getUsername(),
-		          userList.get(i).getUserID(), userList.get(i).getPassword(), userList.get(i).getContact());
-		    }
-		    return output;
-		  }
-
+			      output += String.format("%-10s %-10d %-15s %-18s %-10s\n", userList.get(i).getUsername(),
+			          userList.get(i).getUserID(), userList.get(i).getPassword(), userList.get(i).getEmail(),
+			          userList.get(i).getRole());
+			    }
+			    return output;
+			  }
 		  public static void viewAllUser(ArrayList<User> userList) {
-		    C206_CaseStudy.setHeader("USER LIST");
-		    String output = String.format("%-10s %-10s %-15s %-10s\n", "USERNAME", "USERID", "PASSWORD", "CONTACT");
-		    output += retrieveAllUser(userList);
-		    System.out.println(output);
-		  }
-
-		  public static String retrieveAllAdmin(ArrayList<Admin> adminList) {
-		    String output = "";
-		    for (int i = 0; i < adminList.size(); i++) {
-
-		      output += String.format("%-10s %-10d %-15s %-10s\n", adminList.get(i).getUsername(),
-		          adminList.get(i).getUserID(), adminList.get(i).getPassword(), adminList.get(i).getContact());
-		    }
-		    return output;
-		  }
-
-		  public static void viewAllAdmin(ArrayList<Admin> adminList) {
-
-		    C206_CaseStudy.setHeader("ADMIN LIST");
-		    String output = String.format("%-10s %-10s %-15s %-10s\n", "USERNAME", "USERID", "PASSWORD", "CONTACT");
-		    output += retrieveAllAdmin(adminList);
-		    System.out.println(output);
-		  }
-	  
+			    C206_CaseStudy.setHeader("USER LIST");
+			    String output = String.format("%-10s %-10s %-15s %-18s %-10s\n", "USERNAME", "USERID", "PASSWORD", "EMAIL",
+			        "ROLE");
+			    output += ViewAllUser(userList);
+			    System.out.println(output);
+			  }
+		  
 	//================================= Option 3 Delete user (CRUD - Delete) =====================================
 		  public static boolean doDeleteUser(ArrayList<User> userList, String username, String password) {
 			    boolean isDeleted = false;
 
 			    for (int i = 0; i < userList.size(); i++) {
-			    	if (userList.get(i).getUsername().equalsIgnoreCase(username)
-			    	          && userList.get(i).getPassword().equalsIgnoreCase(password)) {
-			    	        char confirm = Helper.readChar("Confirm Delete? (Y/ N) > ");
-			    	        if (confirm == 'Y' || confirm == 'y') {
-			    	          userList.remove(i);
-			    	          isDeleted = true;
 
-			    	        }
-			    	      }
-			    	    }
-			    	    return isDeleted;
-			    }
-		  public static void returnUser(ArrayList<User> userList) {
-			    C206_CaseStudy.viewAllUser(userList);
-			    String username = Helper.readString("Enter username > ");
-			    String password = Helper.readString("Enter password > ");
-			    Boolean isDeleted = doDeleteUser(userList, username, password);
-
-			    if (isDeleted == false) {
-			      System.out.println("Invalid username");
-			    } else {
-			      System.out.println("User " + username + " deleted");
-			    }
-			    }
-			  
-			  public static boolean doDeleteAdmin(ArrayList<Admin> adminList, String username, String password) {
-			    boolean isDeleted = false;
-
-			    for (int i = 0; i < adminList.size(); i++) {
-
-			      if (adminList.get(i).getUsername().equalsIgnoreCase(username)
-			          && adminList.get(i).getPassword().equalsIgnoreCase(password)) {
-			        char confirm = Helper.readChar("Confirm Delete? (Y/ N) > ");
-			        if (confirm == 'Y' || confirm == 'y') {
-			          adminList.remove(i);
-			          isDeleted = true;
-
-			        }
+			      if (userList.get(i).getUsername().equalsIgnoreCase(username)
+			          && userList.get(i).getPassword().equalsIgnoreCase(password)) {
+			        userList.remove(i);
+			        isDeleted = true;
 			      }
 			    }
 			    return isDeleted;
 
 			  }
 
-			  public static void returnAdmin(ArrayList<Admin> adminList) {
-			    C206_CaseStudy.viewAllAdmin(adminList);
+			  public static void returnUser(ArrayList<User> userList) {
+			    C206_CaseStudy.viewAllUser(userList);
 			    String username = Helper.readString("Enter username > ");
 			    String password = Helper.readString("Enter password > ");
-			    Boolean isDeleted = doDeleteAdmin(adminList, username, password);
+			    Boolean isDeleted = doDeleteUser(userList, username, password);
 
 			    if (isDeleted == false) {
-			      System.out.println("Invalid username");
+			      System.out.println("Invalid username or password");
 			    } else {
-			      System.out.println("Admin " + username + " deleted.");
+			      System.out.println("User " + username + " deleted");
 			    }
-			  }			
+			  }
 		  
 	//================================= Option 4 Add currency (CRUD - Create) ====================================
 	public static Currency inputCurrency() {
@@ -437,25 +352,26 @@ public class C206_CaseStudy {
 	}
 
 	//================================= Option 7 Add transaction (CRUD - Create) =================================
-	 public static Transaction inputTransactions() {
-		    
-		    String un = Helper.readString("Enter Username > ");
-		    int id = Helper.readInt("Enter user id > ");
-		    String pw = Helper.readString("Enter password > ");
-		    String c = Helper.readString("Enter contact number > ");
-		    int tn=0;
-		    tn++;
-		    java.util.Date td= Helper.readDate("Enter date of transaction(dd/MM/yyyy)> ");
-		    int a=Helper.readInt("Enter the amount you wish to exchange> ");
-		    String dc=Helper.readString("Enter the currency you want to change into> ");
-		    
+	public static Transaction inputTransactions() {
+        
+        String un = Helper.readString("Enter Username > ");
+        int id = Helper.readInt("Enter user id > ");
+        String pw = Helper.readString("Enter password > ");
+        String e = Helper.readString("Enter email > ");
+        String r = Helper.readString("Enter role> ");
+        int tn=0;
+        tn++;
+        java.util.Date td= Helper.readDate("Enter date of transaction(dd/MM/yyyy)> ");
+        int a=Helper.readInt("Enter the amount you wish to exchange> ");
+        String dc=Helper.readString("Enter the currency you want to change into> ");
+        
 
-		    Transaction t= new Transaction(un, id, pw,c,tn,td,a,dc);
-		    
-		    return t;
-		    
-		    
-		  }
+        Transaction t= new Transaction(un, id, pw,e,r,tn,td,a,dc);
+        
+        return t;
+        
+        
+      }
 	public static void addTransaction(ArrayList<Transaction> transactionList, Transaction t) {
 	    Transaction ts;
 	    for(int i = 0; i < transactionList.size(); i++) {
@@ -472,26 +388,26 @@ public class C206_CaseStudy {
 	
 	//================================= Option 8 View transaction (CRUD - Read) =================================
 	public static String retrieveAllTransactions(ArrayList<Transaction> transactionList) {
-	    String output = "";
-	    
-
-	    for (int i = 0; i < transactionList.size(); i++) {
-	      DateFormat tdf=new SimpleDateFormat("dd/MM/yyyy");
-	      String strTD=tdf.format(transactionList.get(i).getTDate());
-	    output += String.format("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", transactionList.get(i).getUsername(),transactionList.get(i).getUserID(),transactionList.get(i).getPassword(),transactionList.get(i).getContact(),transactionList.get(i).getTransactionNo(),strTD,transactionList.get(i).getAmount(),transactionList.get(i).getDesiredCurrency());
-	    
+	      String output = "";
 	      
+
+	      for (int i = 0; i < transactionList.size(); i++) {
+	        DateFormat tdf=new SimpleDateFormat("dd/MM/yyyy");
+	        String strTD=tdf.format(transactionList.get(i).getTDate());
+	      output += String.format("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", transactionList.get(i).getUsername(),transactionList.get(i).getUserID(),transactionList.get(i).getPassword(),transactionList.get(i).getEmail(),transactionList.get(i).getRole(),transactionList.get(i).getTransactionNo(),strTD,transactionList.get(i).getAmount(),transactionList.get(i).getDesiredCurrency());
+	      
+	        
+	      }
+	      return output;
 	    }
-	    return output;
-	  }
 
 	public static void viewAllTransactions(ArrayList<Transaction> transactionList) {
-	    C206_CaseStudy.setHeader("TRANSACTION LIST");
-	    String output = String.format("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", "USERNAME", "USERID",
-	        "PASSWORD", "CONTACT","ROLE","TRANSACTION NO.","DATE","AMOUNT","CURRENCY");
-	     output += retrieveAllTransactions(transactionList);  
-	    System.out.println(output);
-	  }
+	      C206_CaseStudy.setHeader("TRANSACTION LIST");
+	      String output = String.format("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", "USERNAME", "USERID",
+	          "PASSWORD", "EMAIL","ROLE","TRANSACTION NO.","DATE","AMOUNT","CURRENCY");
+	       output += retrieveAllTransactions(transactionList);  
+	      System.out.println(output);
+	    }
 	
 	//================================= Option 9 Delete transaction (CRUD - Delete) =================================
 	public static boolean doDeleteTransaction(ArrayList<Transaction> transactionList, int id, String pw) {
