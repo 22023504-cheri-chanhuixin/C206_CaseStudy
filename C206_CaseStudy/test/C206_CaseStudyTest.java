@@ -351,7 +351,9 @@ public class C206_CaseStudyTest {
     }
  @Test
     public void deleteExchangeRate() {
+	// Normal Test: Check if there is a valid exchange rate ArrayList to add to
         assertNotNull("Check if there is a valid exchange rate arraylist to add to", exchangeRateList);
+     // Normal Test: Adding exchange rates to the list
         C206_CaseStudy.addExchangeRate(exchangeRateList, er1);
         C206_CaseStudy.addExchangeRate(exchangeRateList, er2);
         
@@ -359,12 +361,11 @@ public class C206_CaseStudyTest {
         assertTrue("Check that deleted exchange rate USD is deleted - true", isDeleted);
         assertEquals("Check that ExchangeRate arraylist size is 1 after deletion", 1, exchangeRateList.size());
         assertSame("Check that remaining ExchangeRate is the same as the second item", er2, exchangeRateList.get(0));
-        
+     // Boundary Test: Delete exchange rate from an empty list
         isDeleted = C206_CaseStudy.doDeleteExchangeRate(exchangeRateList, "EUR");
         assertTrue("Check that deleted exchange rate EUR is deleted - true", isDeleted);
         assertEquals("Check that ExchangeRate arraylist size is 0 after deletion", 0, exchangeRateList.size());
-
-        isDeleted = C206_CaseStudy.doDeleteExchangeRate(exchangeRateList, "JPY");
+     // Error Test: Delete non-existing exchange rate "JPY" = C206_CaseStudy.doDeleteExchangeRate(exchangeRateList, "JPY");
         assertFalse("Check that non-existing exchange rate JPY is not deleted - false", isDeleted);
     }
     
