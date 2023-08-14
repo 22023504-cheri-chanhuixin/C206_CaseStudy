@@ -105,24 +105,31 @@ public class C206_CaseStudyTest {
 	    
 	  
 	  @Test
-	  public void testViewAllUser() {
-	    //Check that there is a valid arrayList to view users
-	    assertNotNull("Test if there is valid User arraylist to retrieve item", userList);
-	    
-	    //Check that the user has been added and is displayed successfully
-	    C206_CaseStudy.addUser(userList, u1);
-	    assertEquals("Test that the User arraylist contain users.", 1, userList.size());
-	    
-	    //Check that user has been removed successfully
-	    C206_CaseStudy.doDeleteUser(userList, u1.getUsername(),u1.getPassword());
-	    assertEquals("Test that user has been removed", 0, userList.size());
-	    
-	    //test that the arayList is empty
-	    String testOutput = "";
-	    String viewAllUser= C206_CaseStudy.ViewAllUser(userList);
-	    assertEquals("Check that ViewAllUserlist", testOutput, viewAllUser);
-	    
-	  }
+		public void testRetrieveAllUser() {
+			// Test if account list is not null but empty - boundary
+			assertNotNull("Test if there is valid Account arraylist to add to", accountList);
+
+			// test if the list of accounts retrieved from the SourceCentre is empty -
+			// boundary
+			// Attempt to retrieve the Account
+			String allAccount = C206_CaseStudy.retrieveAllAccount(accountList);
+			String testOutput = "";
+
+			assertEquals("Check that ViewAllAccountlist", testOutput, allAccount);
+
+			// Given an empty list, after adding 2 accounts, test if the size of the list is
+			// 2 - normal
+			C206_CaseStudy.addAccount(accountList, a1);
+			assertEquals("Test that Account arraylist size is 1.", 1, accountList.size());
+
+			// test if the expected output string same as the list of accounts retrieved
+			// from the SourceCentre
+			allAccount = C206_CaseStudy.retrieveAllAccount(accountList);
+			testOutput = String.format("%-25s %-25.2f %-25s %-25s %-25s\n", "A0011", 2000.00, "password11",
+					"change 50SGD to USD", "12/3/2020");
+
+			assertEquals("Test that ViewAllAccountlist.", testOutput, allAccount);
+		}
 	  
 	  
 	  @Test

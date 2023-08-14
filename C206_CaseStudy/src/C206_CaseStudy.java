@@ -248,7 +248,7 @@ public class C206_CaseStudy {
 
 	// ================================= Option 2 View user (CRUD - Read)
 	// =========================================
-	public static String ViewAllUser(ArrayList<User> userList) {
+	public static String retrieveAllUser(ArrayList<User> userList) {
 		String output = "";
 
 		int userListSize = userList.size();
@@ -264,12 +264,13 @@ public class C206_CaseStudy {
 		return output;
 	}
 
-	public static void viewAllUser(ArrayList<User> userList) {
+	public static String viewAllUser(ArrayList<User> userList) {
 		C206_CaseStudy.setHeader("USER LIST");
 		String output = String.format("%-10s %-10s %-15s %-18s %-10s\n", "USERNAME", "USERID", "PASSWORD", "EMAIL",
 				"ROLE");
-		output += ViewAllUser(userList);
+		output += retrieveAllUser(userList);
 		System.out.println(output);
+		return output;
 	}
 
 	// ================================= Option 3 Delete user (CRUD - Delete)
