@@ -106,29 +106,28 @@ public class C206_CaseStudyTest {
 	  
 	  @Test
 		public void testRetrieveAllUser() {
-			// Test if account list is not null but empty - boundary
-			assertNotNull("Test if there is valid Account arraylist to add to", accountList);
+			// Test if user list is not null but empty - boundary
+			assertNotNull("Test if there is valid User arraylist to add to", userList);
 
-			// test if the list of accounts retrieved from the SourceCentre is empty -
+			// test if the list of users retrieved is empty -
 			// boundary
-			// Attempt to retrieve the Account
-			String allAccount = C206_CaseStudy.retrieveAllAccount(accountList);
+			// Attempt to retrieve Users
+			String allUser = C206_CaseStudy.retrieveAllUser(userList);
 			String testOutput = "";
 
-			assertEquals("Check that ViewAllAccountlist", testOutput, allAccount);
+			assertEquals("Check that ViewAllUserlist", testOutput, allUser);
 
-			// Given an empty list, after adding 2 accounts, test if the size of the list is
+			// Given an empty list, after adding 2 users, test if the size of the list is
 			// 2 - normal
-			C206_CaseStudy.addAccount(accountList, a1);
-			assertEquals("Test that Account arraylist size is 1.", 1, accountList.size());
+			C206_CaseStudy.addUser(userList, u1);
+			assertEquals("Test that User arraylist size is 1.", 1, userList.size());
 
-			// test if the expected output string same as the list of accounts retrieved
-			// from the SourceCentre
-			allAccount = C206_CaseStudy.retrieveAllAccount(accountList);
+			// test if the expected output string same as the list of users retrieved
+			allUser = C206_CaseStudy.retrieveAllUser(userList);
 			testOutput = String.format("%-25s %-25.2f %-25s %-25s %-25s\n", "A0011", 2000.00, "password11",
 					"change 50SGD to USD", "12/3/2020");
 
-			assertEquals("Test that ViewAllAccountlist.", testOutput, allAccount);
+			assertEquals("Test that ViewAllUserlist.", testOutput, allUser);
 		}
 	  
 	  
