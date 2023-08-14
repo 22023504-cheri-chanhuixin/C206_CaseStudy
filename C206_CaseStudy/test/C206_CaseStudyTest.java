@@ -365,7 +365,8 @@ public class C206_CaseStudyTest {
         isDeleted = C206_CaseStudy.doDeleteExchangeRate(exchangeRateList, "EUR");
         assertTrue("Check that deleted exchange rate EUR is deleted - true", isDeleted);
         assertEquals("Check that ExchangeRate arraylist size is 0 after deletion", 0, exchangeRateList.size());
-     // Error Test: Delete non-existing exchange rate "JPY" = C206_CaseStudy.doDeleteExchangeRate(exchangeRateList, "JPY");
+     // Error Test: Delete non-existing exchange rate "JPY"
+        isDeleted = C206_CaseStudy.doDeleteExchangeRate(exchangeRateList, "JPY");
         assertFalse("Check that non-existing exchange rate JPY is not deleted - false", isDeleted);
     }
     
