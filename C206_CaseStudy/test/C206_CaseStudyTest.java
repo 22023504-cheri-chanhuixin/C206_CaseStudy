@@ -112,7 +112,7 @@ public class C206_CaseStudyTest {
 		// Attempt to retrieve the User
 		String allUser = C206_CaseStudy.retrieveAllUser(userList);
 		String testOutput = "";
-
+ 
 		assertEquals("Check that ViewAllUserlist", testOutput, allUser);
 
 		// Given an empty list, after adding 1 user, test if the size of the list is
