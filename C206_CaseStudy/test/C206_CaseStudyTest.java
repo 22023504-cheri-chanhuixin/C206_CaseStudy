@@ -73,12 +73,12 @@ public class C206_CaseStudyTest {
 		accountList = new ArrayList<Account>();
 		
 		// prepare test data for rate
-		 er1 = new ExchangeRate("USD", "United States Dollar", 0.74);
-	     er2 = new ExchangeRate("EUR", "Euro", 0.68);
-	     er3 = new ExchangeRate("MYR", "Malaysian Ringgit", 3.39);
-	     er4 = new ExchangeRate("JPY", "Japanese Yen", 106.81);
-	        
-	     exchangeRateList = new ArrayList<ExchangeRate>(); // Initialize the exchangeRateList ArrayList
+		er1 = new ExchangeRate("USD", "United States Dollar", 0.74);
+        er2 = new ExchangeRate("EUR", "Euro", 0.68);
+        er3 = new ExchangeRate("MYR", "Malaysian Ringgit", 3.39);
+        er4 = new ExchangeRate("JPY", "Japanese Yen", 106.81);
+        
+        exchangeRateList = new ArrayList<>(); // Initialize the exchangeRateList ArrayList
 	}
 	
 	// user
@@ -325,6 +325,47 @@ public class C206_CaseStudyTest {
         C206_CaseStudy.addExchangeRate(exchangeRateList, er2);
         assertEquals("Check that ExchangeRate arraylist size is 2", 2, exchangeRateList.size());
         assertSame("Check that ExchangeRate is added", er2, exchangeRateList.get(1));
+    }
+
+	@Test
+    public void testRetrieveAllExchangeRates() {
+        // Test if Item list is not null but empty - boundary
+        assertNotNull("Test if there is valid ExchangeRate arraylist to retrieve item", exchangeRateList);
+
+        // Test if the list of exchange rates retrieved from the ExchangeRateMain is empty - boundary
+        String allExchangeRates = C206_CaseStudy.retrieveAllExchangeRates(exchangeRateList);
+        String testOutput = "";
+        assertEquals("Check that ViewAllExchangeRatesList", testOutput, allExchangeRates);
+
+        // Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
+        C206_CaseStudy.addExchangeRate(exchangeRateList, er1);
+        C206_CaseStudy.addExchangeRate(exchangeRateList, er2);
+        assertEquals("Test that ExchangeRate arraylist size is 2", 2, exchangeRateList.size());
+
+        // Test if the expected output string same as the list of exchange rates retrieved from the ExchangeRateMain
+        allExchangeRates = C206_CaseStudy.retrieveAllExchangeRates(exchangeRateList);
+        testOutput = String.format("%-10s %-30s %-10.2f%n", "USD", "United States Dollar", 0.74);
+        testOutput += String.format("%-10s %-30s %-10.2f%n", "EUR", "Euro", 0.68);
+
+        //assertEquals("Test that ViewAllExchangeRatesList", testOutput, allExchangeRates);
+    }
+ @Test
+    public void deleteExchangeRate() {
+        assertNotNull("Check if there is a valid exchange rate arraylist to add to", exchangeRateList);
+        C206_CaseStudy.addExchangeRate(exchangeRateList, er1);
+        C206_CaseStudy.addExchangeRate(exchangeRateList, er2);
+        
+        boolean isDeleted = C206_CaseStudy.doDeleteExchangeRate(exchangeRateList, "USD");
+        assertTrue("Check that deleted exchange rate USD is deleted - true", isDeleted);
+        assertEquals("Check that ExchangeRate arraylist size is 1 after deletion", 1, exchangeRateList.size());
+        assertSame("Check that remaining ExchangeRate is the same as the second item", er2, exchangeRateList.get(0));
+        
+        isDeleted = C206_CaseStudy.doDeleteExchangeRate(exchangeRateList, "EUR");
+        assertTrue("Check that deleted exchange rate EUR is deleted - true", isDeleted);
+        assertEquals("Check that ExchangeRate arraylist size is 0 after deletion", 0, exchangeRateList.size());
+
+        isDeleted = C206_CaseStudy.doDeleteExchangeRate(exchangeRateList, "JPY");
+        assertFalse("Check that non-existing exchange rate JPY is not deleted - false", isDeleted);
     }
     
 	@After

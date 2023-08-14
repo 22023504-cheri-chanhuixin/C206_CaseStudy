@@ -538,37 +538,61 @@ public class C206_CaseStudy {
     }
 	
 	//================================= Option 14 View rate (CRUD - Read) =================================
-    public static void viewAllExchangeRates(ArrayList<ExchangeRate> exchangeRateList) {
-        C206_CaseStudy.setHeader("EXCHANGE RATE LIST : BASE CURRENCY 1 SGD");
-        C206_CaseStudy.setHeader( "BUY/SELL 1 SGD");
-        String output = String.format("%-15s %-20s %-10s\n", "CODE", "NAME", "EXCHANGE RATE");
-        
-        for (ExchangeRate exchangeRate : exchangeRateList) {
-            output += String.format("%-15s %-20s %-10.2f\n", 
-                                    exchangeRate.getCode(), 
-                                    exchangeRate.getName(), 
-                                    exchangeRate.getExchangeRate());
+    public static String retrieveAllExchangeRates(ArrayList<ExchangeRate> exchangeRateList) {
+        String output = "";
+
+        for (int i = 0; i < exchangeRateList.size(); i++) {
+          output += String.format("%-15s %-20s %-10s\n", exchangeRateList.get(i).getExchangeRate_code(), exchangeRateList.get(i).getExchangeRate_name(), 
+              exchangeRateList.get(i).getExchangeRate_ExchangeRate());  
+          
         }
+        return output;
+      }
         
-        System.out.println(output);
-    }
+        public static void viewAllExchangeRates(ArrayList<ExchangeRate> exchangeRateList) {
+            C206_CaseStudy.setHeader("EXCHANGE RATE LIST : BASE CURRENCY 1 SGD");
+            C206_CaseStudy.setHeader( "BUY/SELL 1 SGD");
+            String output = String.format("%-15s %-20s %-10s\n", "CODE", "NAME", "EXCHANGE RATE");
+            
+            for (ExchangeRate exchangeRate : exchangeRateList) {
+                output += String.format("%-15s %-20s %-10.2f\n", 
+                                        exchangeRate.getCode(), 
+                                        exchangeRate.getName(), 
+                                        exchangeRate.getExchangeRate());
+            }
+            
+            System.out.println(output);
+        }
 	
 	//================================= Option 15 Delete rate (CRUD - Delete) =================================
-    public static void deleteExchangeRate(ArrayList<ExchangeRate> exchangeRateList) {
-        String code = Helper.readString("Enter exchange rate code to delete > ");
-        ExchangeRate exchangeRateToRemove = null;
-        for (ExchangeRate exchangeRate : exchangeRateList) {
-            if (exchangeRate.getCode().equalsIgnoreCase(code)) {
-                exchangeRateToRemove = exchangeRate;
-                break;
-            }
-        }
-        if (exchangeRateToRemove != null) {
-            exchangeRateList.remove(exchangeRateToRemove);
-            System.out.println("Exchange rate " + code + "code deleted");
-        } else {
-            System.out.println("Exchange rate " + code + "code not found.");
-        }
-    }
-}
+        public static boolean doDeleteExchangeRate(ArrayList<ExchangeRate> exchangeRateList, String code) {
+            if (code.isEmpty())
+                return false;
 
+            for (int i = 0; i < exchangeRateList.size(); i++) {
+                String code1 = exchangeRateList.get(i).getCode();
+                if (code1.equalsIgnoreCase(code1)) {
+                  exchangeRateList.remove(i);
+                    return true;
+                }
+            }
+            return false;
+        }
+          
+          public static void deleteExchangeRate(ArrayList<ExchangeRate> exchangeRateList) {
+              String code = Helper.readString("Enter exchange rate code to delete > ");
+              ExchangeRate exchangeRateToRemove = null;
+              for (ExchangeRate exchangeRate : exchangeRateList) {
+                  if (exchangeRate.getCode().equalsIgnoreCase(code)) {
+                      exchangeRateToRemove = exchangeRate;
+                      break;
+                  }
+              }
+              if (exchangeRateToRemove != null) {
+                  exchangeRateList.remove(exchangeRateToRemove);
+                  System.out.println("Exchange rate " + code + "code deleted");
+              } else {
+                  System.out.println("Exchange rate " + code + "code not found.");
+              }
+          }
+      }

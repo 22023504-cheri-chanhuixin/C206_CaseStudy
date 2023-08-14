@@ -13,4 +13,19 @@ public class ExchangeRate extends Currency {
     public void setExchangeRate(double exchangeRate) {
         this.exchangeRate = exchangeRate;
     }
+
+  public Object getExchangeRate_code() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public Object getExchangeRate_ExchangeRate() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public Object getExchangeRate_name() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
